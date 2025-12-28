@@ -1,0 +1,5 @@
+{
+  "name": "宝可梦 AI 对战 (Pokémon AI Battle)",
+  "description": "基于 Gemini AI 的宝可梦对战模拟器。体验经典的回合制战斗，并利用 AI 助手分析战局、识别宝可梦图片或制定深度策略。",
+  "requestFramePermissions": []
+}
