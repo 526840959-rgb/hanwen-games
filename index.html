@@ -21,19 +21,53 @@
           -ms-overflow-style: none;
           scrollbar-width: none;
       }
+      /* Error message styling */
+      #error-message {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: #1e293b;
+        color: #ef4444;
+        padding: 20px;
+        z-index: 9999;
+        font-family: monospace;
+        white-space: pre-wrap;
+      }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "@google/genai": "https://esm.sh/@google/genai@^1.34.0"
-  }
-}
-</script>
-</head>
+    <script>
+      // Polyfill for process.env to prevent crash on initialization
+      window.process = {
+        env: {
+          NODE_ENV: 'development',
+          API_KEY: '' // This will be populated by the build environment or remain empty if not set
+        }
+      };
+      
+      // Global error handler to debug "black screen"
+      window.addEventListener('error', function(event) {
+        const errorDiv = document.getElementById('error-message');
+        if (errorDiv) {
+          errorDiv.style.display = 'block';
+          errorDiv.textContent += `Error: ${event.message}\nAt: ${event.filename}:${event.lineno}\n\n`;
+        }
+        console.error('Global Error:', event.error);
+      });
+    </script>
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react/": "https://esm.sh/react@18.2.0/",
+        "react-dom": "https://esm.sh/react-dom@18.2.0",
+        "react-dom/": "https://esm.sh/react-dom@18.2.0/",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "@google/genai": "https://esm.sh/@google/genai"
+      }
+    }
+    </script>
+  </head>
   <body class="bg-slate-900 text-white min-h-screen">
+    <div id="error-message"></div>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>
